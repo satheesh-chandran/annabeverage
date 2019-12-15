@@ -1,0 +1,19 @@
+{
+  "name": "annabeverage",
+  "version": "1.0.0",
+  "description": "Beverage App For Anna Juice Ltd",
+  "main": "beverage.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "appTest": "./runAppTests.sh appTests/*.test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
