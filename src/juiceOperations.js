@@ -1,9 +1,10 @@
-const isQueryOptionsValid = require('./validations').isQueryOptionsValid;
-const isSaveOptionsValid = require('./validations').isSaveOptionsValid;
-const recordTransaction = require('./utilities').recordTransaction;
-const saveFormatter = require('./utilities').saveFormatter;
-const formatter = require('./utilities').formatter;
-const dateFormatter = require('./utilities').dateFormatter;
+const { isQueryOptionsValid, isSaveOptionsValid } = require('./validations');
+const {
+  recordTransaction,
+  saveFormatter,
+  formatter,
+  dateFormatter
+} = require('./utilities');
 
 const getObjectList = function(timeStampedArg) {
   const purchaseDetails = {};
@@ -16,9 +17,7 @@ const getObjectList = function(timeStampedArg) {
 /////////////////////////////////////////////////
 
 const save = function(options, previousDetails, fileOperations, now) {
-  if (!isSaveOptionsValid(options)) {
-    return [['options not valid']];
-  }
+  if (!isSaveOptionsValid(options)) return [['options not valid']];
   previousDetails = JSON.parse(previousDetails);
   const purchaseDetails = getObjectList(options);
   purchaseDetails.date = now.toJSON();
@@ -55,23 +54,15 @@ const isAllPointMatch = function(queryPoints, element) {
 
 /////////////////////////////////////////////////
 
-const sum = function(a, element) {
-  return a + element[2];
-};
-
-/////////////////////////////////////////////////
-
 const query = function(options, previousDetails) {
-  if (!isQueryOptionsValid(options)) {
-    return [['options not valid']];
-  }
+  if (!isQueryOptionsValid(options)) return [['options not valid']];
   const queryPoints = getQueryPoints(options);
   previousDetails = JSON.parse(previousDetails);
   let matchedList = previousDetails.filter(
     isAllPointMatch.bind(null, queryPoints)
   );
   matchedList = matchedList.map(formatter);
-  const total = matchedList.reduce(sum, 0);
+  const total = matchedList.reduce((a, element) => a + element[2], 0);
   total > 1
     ? matchedList.push([`Total: ${total} Juices`])
     : matchedList.push([`Total: ${total} Juice`]);

@@ -6,25 +6,14 @@ const getPairedOptions = function(options) {
   return pairedOptions;
 };
 
-/////////////////////////////////////////////////
-
-const isPosInteger = function(num) {
-  const number = +num;
-  return Number.isInteger(number) && number > 0;
-};
-
-/////////////////////////////////////////////////
+const isPosInteger = num => Number.isInteger(+num) && +num > 0;
 
 const isValidDate = function(date) {
-  let bits = date.split('-');
-  if (bits[0] == 0) {
-    return false;
-  }
-  let d = new Date(bits[0], bits[1] - 1, bits[2]);
+  const bits = date.split('-');
+  if (bits[0] == 0) return false;
+  const d = new Date(bits[0], bits[1] - 1, bits[2]);
   return d && d.getMonth() + 1 == bits[1];
 };
-
-/////////////////////////////////////////////////
 
 const isSavePairVaild = function(pair) {
   if (!['--beverage', '--empId', '--qty'].includes(pair[0])) {
@@ -37,8 +26,6 @@ const isSavePairVaild = function(pair) {
   };
   return predicates[pair[0]](pair[1]);
 };
-
-/////////////////////////////////////////////////
 
 const isQueryPairVaild = function(pair) {
   if (!['--date', '--empId', '--beverage'].includes(pair[0])) {
@@ -54,19 +41,11 @@ const isQueryPairVaild = function(pair) {
 
 /////////////////////////////////////////////////
 
-const isSaveOptionsValid = function(options) {
-  const pairedOptions = getPairedOptions(options);
-  return pairedOptions.every(isSavePairVaild);
-};
+const isSaveOptionsValid = options =>
+  getPairedOptions(options).every(isSavePairVaild);
 
-/////////////////////////////////////////////////
-
-const isQueryOptionsValid = function(options) {
-  const pairedOptions = getPairedOptions(options);
-  return pairedOptions.every(isQueryPairVaild);
-};
-
-/////////////////////////////////////////////////
+const isQueryOptionsValid = options =>
+  getPairedOptions(options).every(isQueryPairVaild);
 
 module.exports = {
   isQueryOptionsValid,

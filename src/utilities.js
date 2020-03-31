@@ -13,7 +13,7 @@ const fs = require('fs');
 
 /////////////////////////////////////////////////
 
-const formatter = function(element) {
+const formatter = element => {
   return [
     element['--empId'],
     element['--beverage'],
@@ -24,7 +24,7 @@ const formatter = function(element) {
 
 /////////////////////////////////////////////////
 
-const saveFormatter = function(element) {
+const saveFormatter = element => {
   return [
     ['Transaction Recorded:'],
     ['Employee ID,Beverage,Quantity,Date'],
@@ -49,22 +49,15 @@ const dateFormatter = function(date) {
 /////////////////////////////////////////////////
 
 const recordTransaction = function(transactionObj, fileOperations) {
-  let encoding = fileOperations.encoding;
-  let write = fileOperations.write;
-  let path = fileOperations.path;
-  let transactionStr = JSON.stringify(transactionObj);
+  const { encoding, write, path } = fileOperations;
+  const transactionStr = JSON.stringify(transactionObj);
   write(path, transactionStr, encoding);
 };
 
 /////////////////////////////////////////////////
 
 const getBeverageRecord = function(fileOperations) {
-  let exist = fileOperations.exist;
-  let read = fileOperations.read;
-  let write = fileOperations.write;
-  let encoding = fileOperations.encoding;
-  let content = fileOperations.content;
-  let path = fileOperations.path;
+  const { exist, read, write, encoding, content, path } = fileOperations;
   if (!exist(path) || read(path, encoding) == '') {
     write(path, content, encoding);
   }
@@ -86,9 +79,11 @@ const getFileOperations = function(path) {
 
 /////////////////////////////////////////////////
 
-exports.getBeverageRecord = getBeverageRecord;
-exports.recordTransaction = recordTransaction;
-exports.getFileOperations = getFileOperations;
-exports.formatter = formatter;
-exports.saveFormatter = saveFormatter;
-exports.dateFormatter = dateFormatter;
+module.exports = {
+  getBeverageRecord,
+  recordTransaction,
+  getFileOperations,
+  formatter,
+  saveFormatter,
+  dateFormatter
+};

@@ -1,5 +1,4 @@
-const save = require('./juiceOperations').save;
-const query = require('./juiceOperations').query;
+const { save, query } = require('./juiceOperations');
 
 const getUserRequirement = function(commandArgs) {
   const userRequirement = {};

@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "nyc mocha",
     "appTest": "./runAppTests.sh appTests/*.test"
   },
   "author": "",
