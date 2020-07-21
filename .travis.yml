@@ -1,3 +1,8 @@
 language: node_js
 node_js:
   - 12
+email:
+  recipients:
+    -satheesancchandran@gmail.com
+  on_success: always
+  on_failure: always
